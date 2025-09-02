@@ -1,4 +1,9 @@
+import { cnpj } from "cpf-cnpj-validator";
 import { useGetContacts } from "./hooks/useGetContacts";
+import ActiveFlag from "../../ui/ActiveFlag";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import { useDeleteContact } from "./hooks/useDeleteContact";
 
 function LeadsTable() {
   const { contacts } = useGetContacts();
@@ -17,7 +22,7 @@ function LeadsTable() {
     <div className="grid max-h-full w-full grid-flow-row overflow-clip rounded-xl border border-gray-200">
       <Header />
       {contacts.map((lead, ind) => (
-        <Row lead={lead} isEven={ind % 2 === 0} />
+        <Row key={lead.id} lead={lead} isEven={ind % 2 === 0} />
       ))}
     </div>
   );
@@ -30,12 +35,19 @@ function Header() {
         Nome
       </HeaderCol>
       <HeaderCol cols={"col-span-1"}>Razão Social</HeaderCol>
+      <HeaderCol cols={"col-span-2"}>CNPJ</HeaderCol>
+      <HeaderCol cols={"col-span-2"}>Email</HeaderCol>
+      <HeaderCol cols={"col-span-1"}>Segmento</HeaderCol>
+      <HeaderCol cols={"col-span-1"}>Origem</HeaderCol>
+      <HeaderCol cols={"col-span-1"} useCentralize>
+        Ativo
+      </HeaderCol>
     </div>
   );
 }
 
-function HeaderCol({ cols, children, isFirst = false }) {
-  const style = `flex flex-row justify-start ${cols} ${isFirst && "pl-6"}`;
+function HeaderCol({ cols, children, isFirst = false, useCentralize = false }) {
+  const style = `flex flex-row  ${cols} ${isFirst && "pl-6"} ${useCentralize ? "justify-center items-center" : " justify-start"}`;
 
   return (
     <div className={style}>
@@ -47,24 +59,54 @@ function HeaderCol({ cols, children, isFirst = false }) {
 function Row({ lead, isEven }) {
   console.log(lead);
 
+  const deleteContactFn = useDeleteContact();
+
   return (
-    <div className={`row-span-1 grid grid-cols-10`}>
+    <div className={`row-span-1 grid grid-cols-10 items-baseline`}>
       <RowColumn cols={"col-span-2"} isFirst>
         {lead.nome}
       </RowColumn>
-      <RowColumn cols={"col-span-1"}>
+      <RowColumn cols={"col-span-1"} textSize={"text-sm"}>
         {lead.razaoSocial || "Não fornecido"}
+      </RowColumn>
+      <RowColumn cols={"col-span-2"} textSize={"text-sm"}>
+        {cnpj.format(lead.cnpj) || "Não fornecido"}
+      </RowColumn>
+      <RowColumn cols={"col-span-2"} textSize={"text-sm"}>
+        {lead.emailPrincipal || "Não fornecido"}
+      </RowColumn>
+      <RowColumn cols={"col-span-1"} textSize={"text-sm"}>
+        {lead.segmento || "Não fornecido"}
+      </RowColumn>
+      <RowColumn cols={"col-span-1"} textSize={"text-sm"}>
+        {lead.origem || "Não fornecido"}
+      </RowColumn>
+      <RowColumn cols={"col-span-1"} textSize={"text-sm"} useCentralize>
+        <ActiveFlag
+          isActive={lead.ativo}
+          clickHandler={() =>
+            deleteContactFn({
+              id: lead.id,
+            })
+          }
+        />
       </RowColumn>
     </div>
   );
 }
 
-function RowColumn({ cols, children, isFirst = false }) {
-  const style = `${cols} py-3 ${isFirst && "pl-6"}`;
+function RowColumn({
+  cols,
+  children,
+  isFirst = false,
+  textSize,
+  useCentralize = false,
+}) {
+  const style = `${cols} py-3 ${isFirst && "pl-6"} ${textSize} ${useCentralize && "flex flex-row justify-center items-center"}`;
 
   return (
     <div className={style}>
-      <p className="text-gray-700">{children}</p>
+      <div className="text-gray-700">{children}</div>
     </div>
   );
 }

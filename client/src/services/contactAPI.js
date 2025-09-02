@@ -12,4 +12,10 @@ async function getContacts() {
   return res.data.data.contacts;
 }
 
-export { createContact, getContacts };
+async function deleteContact({ status, id }) {
+  const res = await axios.delete(`/api/v1/nectar/${id}`);
+
+  return res.data.data;
+}
+
+export { createContact, getContacts, deleteContact };

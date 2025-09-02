@@ -95,8 +95,12 @@ function BasicData() {
                 }
               />,
               <StyledDropdown
-                label={"Indicador por"}
-                options={["teste", "testeee", "testeeee"]}
+                label={"Indicado por"}
+                options={[
+                  "José Luiz Rabello",
+                  "Viviane Dias Araujo",
+                  "Nicole Figueredo de Faria",
+                ]}
                 value={form.indicadoPor}
                 changeHandler={(val) =>
                   updateField({ field: "indicadoPor", value: val })

@@ -31,3 +31,20 @@ exports.getContacts = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.deleteContact = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+
+  console.log(req.params);
+
+  const response = await nectarService.deleteContact({ id });
+
+  if (!response.status) {
+    return next(new AppError(response.data.join(' | ')));
+  }
+
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});

@@ -8,4 +8,6 @@ router
   .post(nectarController.createContact)
   .get(nectarController.getContacts);
 
+router.route('/:id').delete(nectarController.deleteContact);
+
 module.exports = router;
