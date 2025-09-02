@@ -7,7 +7,7 @@ const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
-const dummyRouter = require('./routers/dummyRouter');
+const nectarRouter = require('./routers/nectarRouter');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 
 if (process.env.NODE_ENV === 'production') app.use('/api', limiter);
 
-app.use('/api/v1/dummy', dummyRouter);
+app.use('/api/v1/nectar', nectarRouter);
 
 //Routing react-route-dom
 app.all('/*', (req, res, next) => {
