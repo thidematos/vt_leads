@@ -3,6 +3,7 @@ import StyledInput from "../../ui/StyledInput";
 import StyledSwitch from "../../ui/StyledSwitch";
 import { useForm } from "./context/FormProvider";
 import GridFormRow from "./GridFormRow";
+import { cnpjMask } from "./../../utils/cnpjMask";
 
 function BasicData() {
   const { form, updateField, origin, category, segment } = useForm();
@@ -24,7 +25,7 @@ function BasicData() {
                 label={"CNPJ"}
                 value={form.cnpj}
                 changeHandler={(val) =>
-                  updateField({ field: "cnpj", value: val })
+                  updateField({ field: "cnpj", value: cnpjMask(val) })
                 }
               />,
             ]}
@@ -50,14 +51,28 @@ function BasicData() {
           />
           <GridFormRow
             elements={[
-              <StyledDropdown
-                label={"Categoria"}
-                options={category}
-                value={form.categoria}
-                changeHandler={(val) =>
-                  updateField({ field: "categoria", value: val })
-                }
-              />,
+              <div className="flex flex-col items-stretch justify-center gap-1">
+                <p className="inputLabel">Categorias</p>
+                <select
+                  value={form.constante}
+                  onChange={(e) =>
+                    updateField({
+                      field: "constante",
+                      value: Number(e.target.value),
+                    })
+                  }
+                  className="rounded border border-gray-400 bg-neutral-50 p-2.5 shadow focus:outline-none"
+                >
+                  {...category.map((option, ind) => (
+                    <option
+                      className=""
+                      value={ind === category.length - 1 ? 5 : ind}
+                    >
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>,
               <StyledDropdown
                 label={"Segmento"}
                 options={segment}
@@ -76,7 +91,7 @@ function BasicData() {
                 label={"Receita Anual"}
                 value={form.receitaAnual}
                 changeHandler={(val) =>
-                  updateField({ field: "receitaAnual", value: val })
+                  updateField({ field: "receitaAnual", value: Number(val) })
                 }
               />,
               <StyledDropdown

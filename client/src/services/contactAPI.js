@@ -6,4 +6,10 @@ async function createContact(contact) {
   return res.data.data.contact;
 }
 
-export { createContact };
+async function getContacts() {
+  const res = await axios.get("/api/v1/nectar");
+
+  return res.data.data.contacts;
+}
+
+export { createContact, getContacts };

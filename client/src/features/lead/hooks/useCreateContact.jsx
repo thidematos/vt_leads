@@ -13,13 +13,13 @@ function useCreateContact() {
     onSuccess: () => {
       toast.success("Contato estabelecido!");
       queryClient.invalidateQueries({
-        queryKey: ["contatos"],
+        queryKey: ["contacts"],
       });
       toggleModal({ status: false, component: null });
     },
     onError: (err) => {
       console.log(err);
-      toast.error(err.message);
+      toast.error(err.response.data.message);
     },
   });
 

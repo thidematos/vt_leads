@@ -13,14 +13,7 @@ const origin = [
   "LinkedIn",
 ];
 
-const category = [
-  "Cliente ativo",
-  "Lead",
-  "Prospect",
-  "Parceiro",
-  "Ex-cliente",
-  "Fornecedor",
-];
+const category = ["Cliente", "Prospect", "Suspect", "Lead", "Descartado"];
 
 const segment = [
   "Advocacia",
@@ -38,7 +31,7 @@ const initialState = {
   cnpj: "",
   razaoSocial: "",
   origem: origin[0],
-  categoria: category[0],
+  constante: 0,
   segmento: segment[0],
   receitaAnual: "",
   indicadoPor: "",

@@ -4,9 +4,11 @@ import StyledButton from "./StyledButton";
 
 function Sidebar() {
   return (
-    <div className="flex h-full w-[15%] flex-col items-stretch justify-between border border-red-500 bg-orange-100 py-10">
+    <div className="col-span-2 flex h-full flex-col items-stretch justify-between border-r border-r-gray-200 bg-orange-100 py-10 shadow-lg">
       <Logo />
-      <AddLead />
+      <div className="w-[80%] self-center">
+        <AddLead />
+      </div>
     </div>
   );
 }
